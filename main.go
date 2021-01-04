@@ -1,16 +1,15 @@
 package main
 
 import (
-	"fmt"
-	"github.com/gin-gonic/gin"
+	"hotel_cms/conf"
+	"hotel_cms/server"
 )
 
 func main() {
-	r := gin.Default()
-	r.GET("/", func(c *gin.Context) {
-		c.String(200, "Hello, Geektutu")
-	})
-	err := r.Run() // listen and serve on 0.0.0.0:8080
-	fmt.Print(err)
-	
+	// 从配置文件读取配置
+	conf.Init()
+
+	// 装载路由
+	r := server.NewRouter()
+	r.Run(":3000")
 }

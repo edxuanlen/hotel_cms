@@ -163,6 +163,16 @@ r.POST("/post", func(c *gin.Context) {
     })
 })
 
+// POST JSON 
+engine.PUT("/user", func(context *gin.Context) {
+   var m map[string]string
+   if err := context.BindJSON(&m); err != nil {
+       context.String(http.StatusInternalServerError, "error data!")
+       return
+   }
+   context.String(http.StatusOK, "hello " + m["name"])
+})
+
 // 重定向的两种方式
 
 r.GET("/redirect", func(c *gin.Context) {
@@ -211,6 +221,5 @@ r.POST("/upload2", func(c *gin.Context) {
     }
     c.String(http.StatusOK, "%d files uploaded!", len(files))
 })
-
-
 ```
+

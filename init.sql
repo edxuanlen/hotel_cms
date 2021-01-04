@@ -25,9 +25,9 @@ drop index leader_partner_index on partner;
 
 drop table if exists partner;
 
-drop index phone_person_id_index on personnel;
+drop index phone_person_id_index on user;
 
-drop table if exists personnel;
+drop table if exists user;
 
 drop table if exists room;
 
@@ -223,9 +223,9 @@ create index leader_partner_index on partner
 );
 
 /*==============================================================*/
-/* Table: personnel                                             */
+/* Table: user                                             */
 /*==============================================================*/
-create table personnel
+create table user
 (
    id                   int not null auto_increment comment '人事id',
    identity_card        varchar(20) not null comment '身份证
@@ -247,6 +247,13 @@ create table personnel
    status               tinyint not null default 1 comment '在职状态
             0 离职
             1 在职',
+   access               tinyint comment '权利
+            0 所有权限
+            1 财务（薪资、账本、汇总）
+            2 仓库管理
+            3 外交（合作伙伴）
+            4 房间管理（前台、清理人员）
+            ',
    entry_time           datetime not null comment '入职时间',
    last_payday          datetime not null comment '上一次发薪日期',
    create_time          datetime not null comment '创建时间',
@@ -254,12 +261,12 @@ create table personnel
    primary key (id)
 )charset=UTF8;
 
-alter table personnel comment '人事管理表';
+alter table user comment '人事管理表';
 
 /*==============================================================*/
 /* Index: phone_person_id_index                                 */
 /*==============================================================*/
-create unique index phone_person_id_index on personnel
+create unique index phone_person_id_index on user
 (
    phone
 );
