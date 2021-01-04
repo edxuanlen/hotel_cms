@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"hotel_cms/cache"
-	"hotel_cms/model"
-	"hotel_cms/serializer"
+	"hotel_cms/entity"
+	"hotel_cms/vo"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,7 +23,7 @@ func CurrentUser() gin.HandlerFunc {
 			uid := cache.RedisClient.Get(RedisKeyPrefix + uid)
 
 			// 获取用户信息
-			user, err := model.GetUser(uid)
+			user, err := entity.GetUser(uid)
 			if err == nil {
 				c.Set("user", &user)
 			}
@@ -36,7 +36,7 @@ func CurrentUser() gin.HandlerFunc {
 func AuthRequired() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if user, _ := c.Get("user"); user != nil {
-			if _, ok := user.(*model.User); ok {
+			if _, ok := user.(*entity.User); ok {
 				c.Next()
 				return
 			}

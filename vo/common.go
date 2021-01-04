@@ -1,4 +1,4 @@
-package serializer
+package vo
 
 import "github.com/gin-gonic/gin"
 

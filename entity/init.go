@@ -1,4 +1,4 @@
-package model
+package entity
 
 import (
 	"hotel_cms/util"

@@ -3,7 +3,7 @@ package conf
 import (
 	"github.com/joho/godotenv"
 	"hotel_cms/cache"
-	"hotel_cms/model"
+	"hotel_cms/entity"
 	"hotel_cms/util"
 	"os"
 )
@@ -29,7 +29,7 @@ func Init() {
 	}
 
 	// 连接数据库
-	model.Database(os.Getenv("MYSQL"))
+	entity.Database(os.Getenv("MYSQL"))
 
 	cache.Redis()
 }

@@ -1,4 +1,4 @@
-package model
+package entity
 
 import (
 	"golang.org/x/crypto/bcrypt"
@@ -7,17 +7,18 @@ import (
 
 // User 用户模型
 type User struct {
-	Id           int
+	Id           int    `gorm:"AUTO_INCREMENT"`
 	IdentityCard string `gorm:"size:20"`
 	Name         string `gorm:"size:20"`
-	Phone        string `gorm:"size:20"`
-	Password     string
-	salary       int
-	Status       byte
-	EntryTime    time.Time
-	LastPayday   time.Time
-	CreateTime	 time.Time
-	UpdateTime   time.Time
+	Phone        string `gorm:"size:20;not null; unique"`
+	Password     string `gorm:"not null"`
+	Salary       int
+	Status       byte      `gorm:"not null"`
+	EntryTime    time.Time `gorm:"not null"`
+	LastPayday   time.Time `gorm:"not null"`
+	CreateTime   time.Time `gorm:"not null"`
+	UpdateTime   time.Time `gorm:"not null"`
+	Access       byte      `gorm:"not null"`
 }
 
 const (
