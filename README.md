@@ -221,5 +221,6 @@ r.POST("/upload2", func(c *gin.Context) {
     }
     c.String(http.StatusOK, "%d files uploaded!", len(files))
 })
-```
 
+
+```
