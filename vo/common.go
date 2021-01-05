@@ -55,16 +55,18 @@ func Err(errCode int, msg string, err error) Response {
 }
 
 // DBErr 数据库操作失败
-func DBErr(msg string, err error) Response {
-	if msg == "" {
+func DBErr(err error, msgs ...string) Response {
+	var msg string
+	if len(msgs) == 0 {
 		msg = "数据库操作失败"
 	}
 	return Err(CodeDBError, msg, err)
 }
 
 // ParamErr 各种参数错误
-func ParamErr(msg string, err error) Response {
-	if msg == "" {
+func ParamErr(err error, msgs ...string) Response {
+	var msg string
+	if len(msgs) == 0 {
 		msg = "参数错误"
 	}
 	return Err(CodeParamErr, msg, err)

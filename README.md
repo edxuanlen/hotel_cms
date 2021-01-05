@@ -1,6 +1,8 @@
 # hotel_cms
 软工课设，使用go语言粗略实现一个酒店管理系统。
 
+[风格指南](https://www.oschina.net/news/110525/uber-go-style-guide)
+
 ## 需求分析
 
 ### 人事工资管理
