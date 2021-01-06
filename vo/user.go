@@ -1,7 +1,6 @@
 package vo
 
 import (
-	"hotel_cms/entity"
 	"time"
 )
 
@@ -14,17 +13,17 @@ type User interface {
 	BuildUser()
 }
 
-// User 用户简单信息序列化器
+// UserSimpleInfo 用户简单信息序列化器
 type UserSimpleInfo struct {
-	ID     int    `json:"id"`
+	Id     int    `json:"id"`
 	Name   string `json:"name"`
 	Phone  string `json:"phone"`
 	Access byte   `json:"access"`
 }
 
-// User 用户详情序列化器
+// UserAllInfo 用户详情序列化器
 type UserAllInfo struct {
-	ID           int       `json:"id"`
+	Id           int       `json:"id"`
 	IdentityCard string    `json:"identity_card"`
 	Name         string    `json:"name"`
 	Phone        string    `json:"phone"`
@@ -36,41 +35,41 @@ type UserAllInfo struct {
 }
 
 
-// Simple Info 序列化用户
-func (u *UserSimpleInfo) BuildUser(user entity.User) UserSimpleInfo {
+// (u *UserSimpleInfo) BuildUser 序列化用户简单信息
+func (u *UserSimpleInfo) BuildUser() UserSimpleInfo {
 	return UserSimpleInfo{
-		ID:     user.Id,
-		Name:   user.Name,
-		Phone:  user.Password,
-		Access: user.Access,
+		Id:     u.Id,
+		Name:   u.Name,
+		Phone:  u.Phone,
+		Access: u.Access,
 	}
 }
 
-// All Info 序列化用户
-func (u *UserAllInfo) BuildUser(user entity.User) UserAllInfo {
+// (u *UserAllInfo) BuildUser 序列化用户所有信息
+func (u *UserAllInfo) BuildUser() UserAllInfo {
 	return UserAllInfo{
-		ID:           user.Id,
-		IdentityCard: user.IdentityCard,
-		Name:         user.Name,
-		Phone:        user.Password,
-		Access:       user.Access,
-		Salary:       user.Salary,
-		Status:       user.Status,
-		EntryTime:    user.EntryTime,
-		LastPayday:   user.LastPayday,
+		Id:           u.Id,
+		IdentityCard: u.IdentityCard,
+		Name:         u.Name,
+		Phone:        u.Phone,
+		Access:       u.Access,
+		Salary:       u.Salary,
+		Status:       u.Status,
+		EntryTime:    u.EntryTime,
+		LastPayday:   u.LastPayday,
 	}
 }
 
-// BuildUserResponse 序列化用户响应
-func (u *UserSimpleInfo) BuildUserResponse(user entity.User) Response {
+// (u *UserSimpleInfo) BuildUserResponse 序列化用户简单信息响应
+func (u *UserSimpleInfo) BuildUserResponse() Response {
 	return Response{
-		Data: u.BuildUser(user),
+		Data: u.BuildUser(),
 	}
 }
 
-// BuildUserResponse 序列化用户响应
-func (u *UserAllInfo) BuildUserResponse(user entity.User) Response {
+// (u *UserAllInfo) BuildUserResponse 序列化用户所有信息响应
+func (u *UserAllInfo) BuildUserResponse() Response {
 	return Response{
-		Data: u.BuildUser(user),
+		Data: u.BuildUser(),
 	}
 }

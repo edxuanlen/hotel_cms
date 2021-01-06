@@ -1,18 +1,20 @@
 package api
 
 import (
-	"singo/serializer"
-	"singo/service"
+	"hotel_cms/vo"
+	"hotel_cms/service/user"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
+type userLoginService user.LoginServiceReq
+type userRegisterService user.RegisterServiceReq
+
 // UserRegister 用户注册接口
 func UserRegister(c *gin.Context) {
-	var service service.UserRegisterService
-	if err := c.ShouldBind(&service); err == nil {
-		res := service.Register()
+	if err := c.ShouldBind(&userLoginService); err == nil {
+		res := userLoginService.Register()
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))

@@ -3,14 +3,11 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/gin-gonic/gin"
+	validator "gopkg.in/go-playground/validator.v8"
 	"hotel_cms/conf"
 	"hotel_cms/entity"
 	"hotel_cms/vo"
-	"singo/model"
-	"singo/serializer"
-
-	"github.com/gin-gonic/gin"
-	validator "gopkg.in/go-playground/validator.v8"
 )
 
 // Ping 状态检查页面
@@ -37,9 +34,9 @@ func ErrorResponse(err error) vo.Response {
 		for _, e := range ve {
 			field := conf.T(fmt.Sprintf("Field.%s", e.Field))
 			tag := conf.T(fmt.Sprintf("Tag.Valid.%s", e.Tag))
-			return serializer.ParamErr(
-				fmt.Sprintf("%s%s", field, tag),
+			return vo.ParamErr(
 				err,
+				fmt.Sprintf("%s%s", field, tag),
 			)
 		}
 	}

@@ -1,31 +1,31 @@
 package middleware
 
 import (
+	"github.com/gin-gonic/gin"
 	"hotel_cms/cache"
+	"hotel_cms/common"
 	"hotel_cms/entity"
 	"hotel_cms/vo"
-
-	"github.com/gin-gonic/gin"
-)
-
-const (
-	RedisKeyPrefix = "user_id_"
-	CookieName = "user_id"
 )
 
 // CurrentUser 获取登录用户
 func CurrentUser() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
-		uid, _ := c.Cookie(CookieName)
+		uid, _ := c.Cookie(common.CookieIdString)
 
 		if uid != "" {
-			uid := cache.RedisClient.Get(RedisKeyPrefix + uid)
+			var user entity.User
+			user, _ = (entity.User) cache.RedisClient.Get(common.RedisKeyPrefix + uid)
+			var err error
+			err = nil
+			if user == nil {
+				// 获取用户信息
+				user, err := entity.GetUser(uid)
+			}
 
-			// 获取用户信息
-			user, err := entity.GetUser(uid)
 			if err == nil {
-				c.Set("user", &user)
+				c.SetCookie("user", &user, 86400, "/", "localhost")
 			}
 		}
 		c.Next()
