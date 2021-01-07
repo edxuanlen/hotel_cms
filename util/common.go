@@ -1,6 +1,7 @@
 package util
 
 import (
+	"encoding/json"
 	"math/rand"
 	"time"
 )
@@ -15,4 +16,27 @@ func RandStringRunes(n int) string {
 		b[i] = letterRunes[rand.Intn(len(letterRunes))]
 	}
 	return string(b)
+}
+
+// StringToStruct 字符串转结构体
+func StringToStruct(str string, class interface{}) (interface{}, error) {
+	b := []byte(str)
+	cls := &class
+	err := json.Unmarshal(b, cls)
+	if err == nil {
+		return cls, nil
+	} else {
+		return nil, err
+	}
+}
+
+// StructToString 结构体转字符串
+func StructToString(s *interface{}) ([]byte, error)	{
+	byteArray, err := json.Marshal(&s)
+
+	if err == nil {
+		return byteArray, nil
+	} else {
+		return nil, err
+	}
 }
