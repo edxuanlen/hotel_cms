@@ -1,36 +1,16 @@
 package middleware
 
 import (
+	"errors"
 	"github.com/gin-gonic/gin"
-	"hotel_cms/cache"
+	"gopkg.in/dgrijalva/jwt-go.v3"
 	"hotel_cms/common"
 	"hotel_cms/entity"
 	"hotel_cms/vo"
+	"time"
 )
 
-// CurrentUser 获取登录用户
-func CurrentUser() gin.HandlerFunc {
-	return func(c *gin.Context) {
-
-		uid, _ := c.Cookie(common.CookieIdString)
-
-		if uid != "" {
-			var user entity.User
-			user, _ = (entity.User) cache.RedisClient.Get(common.RedisKeyPrefix + uid)
-			var err error
-			err = nil
-			if user == nil {
-				// 获取用户信息
-				user, err := entity.GetUser(uid)
-			}
-
-			if err == nil {
-				c.SetCookie("user", &user, 86400, "/", "localhost")
-			}
-		}
-		c.Next()
-	}
-}
+type LoginToken vo.LoginToken
 
 // AuthRequired 需要登录
 func AuthRequired() gin.HandlerFunc {
@@ -45,4 +25,46 @@ func AuthRequired() gin.HandlerFunc {
 		c.JSON(200, vo.NoLogin())
 		c.Abort()
 	}
+}
+
+// GenToken 生成JWT
+func GenToken(info vo.UserSimpleInfo) (string, error) {
+	// 创建一个我们自己的声明
+	c := LoginToken{
+		UserSimpleInfo: vo.UserSimpleInfo{
+			Id:     info.Id,
+			Name:   info.Name,
+			Phone:  info.Phone,
+			Access: info.Access,
+		},
+		StandardClaims: jwt.StandardClaims{
+			// 过期时间
+			ExpiresAt: time.Now().Add(common.TokenExpireDuration).Unix(),
+			// 签发人
+			Issuer: common.ProjectName,
+		},
+	}
+
+	// 使用指定的签名方法创建签名对象
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, c)
+
+	// 使用指定的secret签名并获得完整的编码后的字符串token
+	return token.SignedString(common.TokenSecret)
+}
+
+// ParseToken 解析JWT
+func ParseToken(tokenString string) (*LoginToken, error) {
+	// 解析token
+	token, err := jwt.ParseWithClaims(tokenString, &LoginToken{},
+		func(token *jwt.Token) (i interface{}, err error) { return common.TokenSecret, nil })
+	if err != nil {
+		return nil, err
+	}
+
+	// 校验token
+	if claims, ok := token.Claims.(*LoginToken); ok && token.Valid {
+		return claims, nil
+	}
+
+	return nil, errors.New("invalid token")
 }

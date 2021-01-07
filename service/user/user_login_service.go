@@ -26,6 +26,14 @@ func (service *LoginServiceReq) setCookie (c *gin.Context, user entity.User) {
 func (service *LoginServiceReq) Login(c *gin.Context) vo.Response {
 	var user entity.User
 
+	err := c.ShouldBind(&user)
+
+	// 解析 user 失败
+	if err != nil {
+		return vo.ParamErr(err)
+	}
+
+
 	if err := entity.DB.Where("user_name = ?", service.UserName).
 		First(&user).Error; err != nil ||
 		user.CheckPassword(service.Password) == false {
