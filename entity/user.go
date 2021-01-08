@@ -35,13 +35,6 @@ type User struct {
 }
 
 
-// GetUser 用ID获取用户
-func GetUser(Id interface{}) (User, error) {
-	var user User
-	result := DB.First(&user, Id)
-	return user, result.Error
-}
-
 // SetPassword 设置密码
 func (user *User) SetPassword(password string) error {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), common.PassWordCost)

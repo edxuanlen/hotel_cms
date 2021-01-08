@@ -15,7 +15,6 @@ func NewRouter() *gin.Engine {
 	// 中间件, 顺序不能改
 	r.Use(middleware.Session(os.Getenv("SESSION_SECRET")))
 	r.Use(middleware.Cors())
-	r.Use(middleware.CurrentUser())
 
 	// 路由
 	v1 := r.Group("/api/v1")
@@ -33,7 +32,7 @@ func NewRouter() *gin.Engine {
 		auth.Use(middleware.AuthRequired())
 		{
 			// User Routing
-			auth.GET("user/me", api.UserMe)
+			//auth.GET("user/me", api.UserMe)
 			auth.DELETE("user/logout", api.UserLogout)
 		}
 	}

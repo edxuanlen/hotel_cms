@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	redis "hotel_cms/cache"
 	"hotel_cms/common"
+	"hotel_cms/db_op"
 	"hotel_cms/entity"
 	"hotel_cms/util"
 	"hotel_cms/vo"
@@ -25,7 +26,7 @@ func (service *LoginServiceReq) Login() vo.Response {
 	var user entity.User
 
 	// 用户为空或者密码错误
-	if err := entity.DB.Where("user_name = ?", service.UserName).
+	if err := db_op.DB.Where("user_name = ?", service.UserName).
 		First(&user).Error; err != nil ||
 		user.CheckPassword(service.Password) == false {
 		return vo.ParamErr(nil, "账号或密码错误")

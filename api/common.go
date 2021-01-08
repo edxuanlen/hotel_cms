@@ -6,7 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 	validator "gopkg.in/go-playground/validator.v8"
 	"hotel_cms/conf"
-	"hotel_cms/entity"
 	"hotel_cms/vo"
 )
 
@@ -16,16 +15,6 @@ func Ping(c *gin.Context) {
 		Code: 0,
 		Msg:  "Ping Success",
 	})
-}
-
-// CurrentUser 获取当前用户
-func CurrentUser(c *gin.Context) *entity.User {
-	if user, _ := c.Get("user"); user != nil {
-		if u, ok := user.(*entity.User); ok {
-			return u
-		}
-	}
-	return nil
 }
 
 // ErrorResponse 返回错误消息
