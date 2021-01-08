@@ -4,24 +4,16 @@ import (
 	"time"
 )
 
-// Room 用户模型
+// RoomCard room card
 type RoomCard struct {
 	// Id 用户id
 	Id int `gorm:"AUTO_INCREMENT"`
 
-	// Type 房间类型
-	//0 单人房
-	//1 标间
-	//2 大床
-	//3 亲子房
-	//4 套房
-	Type byte `gorm:"not null"`
+	// RoomId the room which is binding in
+	RoomId int
 
-	// Price 房间单价
-	Price int `gorm:"not null"`
-
-	// Number 房间数量
-	Number int `gorm:"not null"`
+	// Status 房间数量
+	Status int `gorm:"not null, default: 0"`
 
 	// CreateTime 创建时间
 	CreateTime time.Time `gorm:"not null"`
