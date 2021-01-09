@@ -26,7 +26,7 @@ func (service *LoginServiceReq) Login() vo.Response {
 	var user entity.User
 
 	// 用户为空或者密码错误
-	if err := db_op.DB.Where("user_name = ?", service.UserName).
+	if err := db_op.DB.Table(common.User).Where("name = ?", service.UserName).
 		First(&user).Error; err != nil ||
 		user.CheckPassword(service.Password) == false {
 		return vo.ParamErr(nil, "账号或密码错误")
@@ -48,6 +48,5 @@ func (service *LoginServiceReq) Login() vo.Response {
 		Code:  200,
 		Data:  token,
 		Msg:   "成功",
-		Error: nil,
 	}
 }

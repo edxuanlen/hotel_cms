@@ -1,8 +1,10 @@
 package user
 
 import (
+	"hotel_cms/common"
 	"hotel_cms/db_op"
 	"hotel_cms/entity"
+	"hotel_cms/util"
 	"hotel_cms/vo"
 	"hotel_cms/vo/req"
 	"time"
@@ -20,7 +22,7 @@ func (service *RegisterServiceReq) valid() *vo.Response {
 	}
 
 	count := 0
-	db_op.DB.Model(&entity.User{}).Where("phone = ?", service.Phone).Count(&count)
+	db_op.DB.Table(common.User).Model(&entity.User{}).Where("phone = ?", service.Phone).Count(&count)
 	if count > 0 {
 		return &vo.Response{
 			Code: 40001,
@@ -29,7 +31,7 @@ func (service *RegisterServiceReq) valid() *vo.Response {
 	}
 
 	count = 0
-	db_op.DB.Model(&entity.User{}).Where("identity_card = ?", service.IdentityCard).Count(&count)
+	db_op.DB.Table(common.User).Model(&entity.User{}).Where("identity_card = ?", service.IdentityCard).Count(&count)
 	if count > 0 {
 		return &vo.Response{
 			Code: 40001,
@@ -70,9 +72,11 @@ func (service *RegisterServiceReq) Register() vo.Response {
 	}
 
 	// 创建用户
-	if err := db_op.DB.Create(&user).Error; err != nil {
+	if err := db_op.DB.Table(common.User).Create(&user).Error; err != nil {
 		return vo.DBErr(err, "注册失败")
 	}
 
-	return vo.UserSimpleInfo.BuildUserResponse(user)
+	var userSimple vo.UserSimpleInfo
+	util.Convert(&user, &userSimple)
+	return userSimple.BuildUserResponse()
 }

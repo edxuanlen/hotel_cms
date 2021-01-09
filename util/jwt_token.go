@@ -12,7 +12,6 @@ type LoginToken vo.LoginToken
 
 // GenToken 生成JWT
 func GenToken(info vo.UserSimpleInfo) (string, error) {
-	// 创建一个我们自己的声明
 	c := LoginToken{
 		UserSimpleInfo: vo.UserSimpleInfo{
 			Id:     info.Id,
@@ -32,7 +31,7 @@ func GenToken(info vo.UserSimpleInfo) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, c)
 
 	// 使用指定的secret签名并获得完整的编码后的字符串token
-	return token.SignedString(common.TokenSecret)
+	return token.SignedString([]byte(common.TokenSecret))
 }
 
 // ParseToken 解析JWT
@@ -42,7 +41,7 @@ func ParseToken(tokenString string) (*LoginToken, error) {
 		tokenString,
 		&LoginToken{},
 		func(token *jwt.Token) (i interface{}, err error) {
-			return common.TokenSecret, nil
+			return []byte(common.TokenSecret), nil
 		})
 
 	if err != nil {

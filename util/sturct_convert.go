@@ -16,7 +16,7 @@ func Convert(source interface{}, target interface{}) {
 			values.Field(index).Set(sourceValue)
 		}
 	}
-	Log().Info("convert target is: %v", target)
+	Log().Info("convert target is: %v\n", target)
 }
 
 func GetMap(source interface{}) map[string]reflect.Value {

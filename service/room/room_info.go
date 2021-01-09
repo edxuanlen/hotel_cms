@@ -21,7 +21,7 @@ func Info(roomId int, err error) vo.Response {
 }
 
 func DueWithResult(result interface{}, err error) vo.Response {
-	if err != nil {
+	if err == nil {
 		return vo.Response{
 			Data: result,
 			Code: 200,

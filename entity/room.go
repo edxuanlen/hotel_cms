@@ -15,7 +15,7 @@ type Room struct {
 	//2 大床
 	//3 亲子房
 	//4 套房
-	Type byte `gorm:"not null"`
+	Type int `gorm:"not null"`
 
 	// Price 房间单价
 	Price int `gorm:"not null"`

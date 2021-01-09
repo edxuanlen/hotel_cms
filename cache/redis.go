@@ -47,9 +47,11 @@ func Redis() {
 				Timeout:   5 * time.Second,
 				KeepAlive: 5 * time.Minute,
 			}
-			return netDialer.Dial("tcp", "127.0.0.1:6379")
+			return netDialer.Dial("tcp", os.Getenv("REDIS_ADDR"))
 		},
 	})
+
+	util.Log().Info(client.String() + "\n")
 
 	_, err := client.Ping().Result()
 

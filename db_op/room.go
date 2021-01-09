@@ -16,7 +16,7 @@ func GetRoom(Id interface{}) (Room, error) {
 }
 
 // UpdateRoomPrice 更改该房间类型的房间单价
-func UpdateRoomPrice(Type byte, NewPrice int) (bool, error) {
+func UpdateRoomPrice(Type int, NewPrice int) (bool, error) {
 	result := DB.Table(common.Room).
 		Where("type = ?", Type).
 		Update("price", NewPrice).
@@ -27,13 +27,13 @@ func UpdateRoomPrice(Type byte, NewPrice int) (bool, error) {
 // SelectRooms 查看房间列表
 func SelectRooms () ([]Room, error) {
 	var rooms []Room
-	result := DB.Find(&rooms)
+	result := DB.Table(common.Room).Find(&rooms)
 	return rooms, result.Error
 }
 
 // SelectRoom 查看某个房间信息
 func SelectRoomById(roomId int) (Room, error) {
 	var room Room
-	result := DB.Where("where id = ?", roomId).First(&room)
+	result := DB.Table(common.Room).Where("where id = ?", roomId).First(&room)
 	return room, result.Error
 }

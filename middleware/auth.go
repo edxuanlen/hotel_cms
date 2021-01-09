@@ -27,8 +27,9 @@ func AuthRequired(level byte) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if token, _ := c.Cookie(common.CookieJwtString); token != "" {
 			// 解析token中的信息
-			loginToken, err := util.ParseToken(token)
+			loginToken , err := util.ParseToken(token)
 			if err == nil {
+				util.Log().Debug("login token access: %v", loginToken)
 				// 需要的权限level
 				if loginToken.Access == level ||
 					// 拥有所有权限的root

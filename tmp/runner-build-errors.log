@@ -1,0 +1,2 @@
+# hotel_cms/middleware
+middleware\auth.go:32:26: invalid operation: loginToken.UserSimpleInfo.Access == level (mismatched types byte and int)
