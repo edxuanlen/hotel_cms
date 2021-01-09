@@ -52,7 +52,7 @@ func (service *RegisterServiceReq) Register() vo.Response {
 		EntryTime: time.Now(),
 		LastPayday: time.Now(),
 		CreateTime: time.Now(),
-		UpdateTime: time.Now(),
+		ModifyTime: time.Now(),
 	}
 
 	// 表单验证

@@ -1,6 +1,8 @@
 package vo
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
 // Response 基础序列化器
 type Response struct {
@@ -31,6 +33,8 @@ const (
 	CodeEncryptError = 50002
 	//CodeParamErr 各种奇奇怪怪的参数错误
 	CodeParamErr = 40001
+	// NoPermission 权限不足
+	NoPermission = 402
 )
 
 // 检查登录
@@ -38,6 +42,13 @@ func NoLogin() Response {
 	return Response{
 		Code: CodeNoLogin,
 		Msg:  "未登录",
+	}
+}
+
+func InsufficientAuthority() Response {
+	return Response{
+		Code: NoPermission,
+		Msg: "Insufficient Authority",
 	}
 }
 

@@ -26,6 +26,6 @@ type Room struct {
 	// CreateTime 创建时间
 	CreateTime time.Time `gorm:"not null"`
 
-	// UpdateTime 更新时间
-	UpdateTime time.Time `gorm:"not null"`
+	// ModifyTime 更新时间
+	ModifyTime time.Time `gorm:"not null"`
 }

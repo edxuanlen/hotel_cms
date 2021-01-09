@@ -24,3 +24,16 @@ func UpdateRoomPrice(Type byte, NewPrice int) (bool, error) {
 	return result.RowsAffected > 0, result.Error
 }
 
+// SelectRooms 查看房间列表
+func SelectRooms () ([]Room, error) {
+	var rooms []Room
+	result := DB.Find(&rooms)
+	return rooms, result.Error
+}
+
+// SelectRoom 查看某个房间信息
+func SelectRoomById(roomId int) (Room, error) {
+	var room Room
+	result := DB.Where("where id = ?", roomId).First(&room)
+	return room, result.Error
+}

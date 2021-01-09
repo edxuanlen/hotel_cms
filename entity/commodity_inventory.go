@@ -1,26 +1,20 @@
 package entity
 
 import (
-	"github.com/shopspring/decimal"
 	"time"
 )
 
-// AccountBook account book
-type AccountBook struct {
+// CommodityInventory 仓库库存
+type CommodityInventory struct {
+
 	// Id account bool record id
 	Id int `gorm:"AUTO_INCREMENT"`
 
-	// Amount amount of money
-	Amount decimal.Decimal `gorm:"not null"`
+	// CommodityName 物品名
+	CommodityName string `gorm:"not null"`
 
-	// Type the record type
-	// 0  房间收入
-	// 1  水电开销
-	// 2  日用品开销
-	// 3  人员开销
-	// 4  其他收入
-	// 5  其他支出
-	Type byte `gorm:"not null"`
+	// Stock 库存
+	Stock int `gorm:"not null"`
 
 	// Leader 负责人
 	Leader string `gorm:"not null"`

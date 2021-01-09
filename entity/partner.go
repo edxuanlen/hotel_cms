@@ -5,22 +5,22 @@ import (
 	"time"
 )
 
-// AccountBook account book
-type AccountBook struct {
+type partner struct {
+
 	// Id account bool record id
 	Id int `gorm:"AUTO_INCREMENT"`
 
-	// Amount amount of money
-	Amount decimal.Decimal `gorm:"not null"`
 
-	// Type the record type
-	// 0  房间收入
-	// 1  水电开销
-	// 2  日用品开销
-	// 3  人员开销
-	// 4  其他收入
-	// 5  其他支出
-	Type byte `gorm:"not null"`
+	// PartnerName 合作伙伴名字
+	PartnerName string `gorm:"not null"`
+
+	// Discount 折扣力度
+	Discount decimal.Decimal `gorm:"not null"`
+
+	// Status 当前合作状态
+	// 0 不合作
+	// 1 合作
+	Status byte `gorm:"not null"`
 
 	// Leader 负责人
 	Leader string `gorm:"not null"`
